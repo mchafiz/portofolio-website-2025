@@ -1,5 +1,5 @@
 export function initSmoothScroll() {
-  const duration = 800; // Duration in milliseconds
+  const duration = 500; // Reduced duration for faster response
 
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {

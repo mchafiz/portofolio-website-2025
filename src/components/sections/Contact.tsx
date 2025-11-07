@@ -9,7 +9,8 @@ const Contact = () => {
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Get In Touch</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            I'm always open to discussing new opportunities and interesting projects
+            {`I'm always open to discussing new opportunities and interesting
+            projects`}
           </p>
         </div>
 
@@ -21,21 +22,24 @@ const Contact = () => {
             <CardContent className="space-y-4">
               <div className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-muted-foreground" />
-                <a href="mailto:your.email@example.com" className="hover:text-primary">
-                  your.email@example.com
+                <a
+                  href="mailto:mchaerulhafiz@gmail.com"
+                  className="hover:text-primary"
+                >
+                  mchaerulhafiz@gmail.com
                 </a>
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-muted-foreground" />
-                <span>+1 234 567 8900</span>
+                <span>+62 85777412578</span>
               </div>
               <div className="flex items-center gap-3">
                 <MapPin className="w-5 h-5 text-muted-foreground" />
-                <span>Your City, Country</span>
+                <span>Jakarta, Indonesia</span>
               </div>
               <div className="flex gap-3 pt-4">
                 <a
-                  href="https://github.com"
+                  href="https://github.com/mchafiz"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2 rounded-full border hover:bg-accent transition-colors"
@@ -43,7 +47,7 @@ const Contact = () => {
                   <Github className="w-5 h-5" />
                 </a>
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/mchaerulhafiz/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2 rounded-full border hover:bg-accent transition-colors"
@@ -61,7 +65,10 @@ const Contact = () => {
             <CardContent>
               <form className="space-y-4">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium mb-1">
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-medium mb-1"
+                  >
                     Name
                   </label>
                   <input
@@ -72,7 +79,10 @@ const Contact = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium mb-1">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium mb-1"
+                  >
                     Email
                   </label>
                   <input
@@ -83,7 +93,10 @@ const Contact = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium mb-1">
+                  <label
+                    htmlFor="message"
+                    className="block text-sm font-medium mb-1"
+                  >
                     Message
                   </label>
                   <textarea

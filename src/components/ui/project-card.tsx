@@ -15,6 +15,7 @@ interface ProjectCardProps {
   githubUrl: string;
   featured?: boolean;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export function ProjectCard({
@@ -25,7 +26,8 @@ export function ProjectCard({
   liveUrl,
   githubUrl,
   featured = false,
-  className
+  className,
+  style,
 }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -36,14 +38,17 @@ export function ProjectCard({
         featured && "lg:col-span-2 lg:row-span-2",
         className
       )}
+      style={style}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Image Container */}
-      <div className={cn(
-        "relative overflow-hidden bg-muted",
-        featured ? "aspect-video" : "aspect-video"
-      )}>
+      <div
+        className={cn(
+          "relative overflow-hidden bg-muted",
+          featured ? "aspect-video" : "aspect-video"
+        )}
+      >
         <Image
           src={image}
           alt={title}
@@ -53,19 +58,23 @@ export function ProjectCard({
             isHovered && "scale-110"
           )}
         />
-        <div className={cn(
-          "absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent transition-opacity duration-300",
-          isHovered ? "opacity-100" : "opacity-0"
-        )} />
+        <div
+          className={cn(
+            "absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent transition-opacity duration-300",
+            isHovered ? "opacity-100" : "opacity-0"
+          )}
+        />
 
         {/* Overlay Actions */}
-        <div className={cn(
-          "absolute inset-0 flex items-center justify-center gap-4 transition-all duration-300",
-          isHovered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-        )}>
+        <div
+          className={cn(
+            "absolute inset-0 flex items-center justify-center gap-4 transition-all duration-300",
+            isHovered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          )}
+        >
           <Button
             size="sm"
-            className="gap-2 bg-background/80 backdrop-blur-sm hover:bg-background"
+            className="gap-2 bg-background/80 backdrop-blur-sm hover:bg-background text-white"
             asChild
           >
             <a href={liveUrl} target="_blank" rel="noopener noreferrer">
@@ -96,10 +105,12 @@ export function ProjectCard({
 
       <CardHeader className="pb-4">
         <div className="flex items-start justify-between">
-          <h3 className={cn(
-            "font-bold transition-colors group-hover:text-primary",
-            featured ? "text-2xl" : "text-xl"
-          )}>
+          <h3
+            className={cn(
+              "font-bold transition-colors group-hover:text-primary",
+              featured ? "text-2xl" : "text-xl"
+            )}
+          >
             {title}
           </h3>
           <div className="flex items-center gap-1">
@@ -110,10 +121,12 @@ export function ProjectCard({
       </CardHeader>
 
       <CardContent className="space-y-4">
-        <p className={cn(
-          "text-muted-foreground leading-relaxed",
-          featured ? "text-base" : "text-sm"
-        )}>
+        <p
+          className={cn(
+            "text-muted-foreground leading-relaxed",
+            featured ? "text-base" : "text-sm"
+          )}
+        >
           {description}
         </p>
 

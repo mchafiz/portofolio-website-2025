@@ -3,18 +3,13 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ProjectCard } from "@/components/ui/project-card";
-import { useParallax } from "@/hooks/use-parallax";
 import { GradientText } from "@/components/ui/gradient-text";
-import { Code2, Filter, ArrowRight } from "lucide-react";
-import Image from "next/image";
+import { Code2, Filter, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 
-const Projects = () => {
+export default function ProjectsPage() {
   const [filter, setFilter] = useState("All");
-  const parallax = useParallax(0.2);
-  const parallaxFast = useParallax(0.4);
-  const parallaxSlow = useParallax(0.3);
 
   const projects = [
     {
@@ -97,6 +92,72 @@ const Projects = () => {
         "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&h=400&fit=crop",
       category: "Backend",
     },
+    {
+      title: "Oli3 Internal ERP System",
+      description:
+        "Comprehensive internal ERP system for managing company operations including timesheet tracking, KPI monitoring, training management, and leave administration. Built to streamline HR and operational workflows.",
+      tech: ["React", "Next.js", "TypeScript", "PostgreSQL", "Node.js"],
+      liveUrl: "#",
+      githubUrl: "#",
+      image:
+        "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=400&fit=crop",
+      category: "Full Stack",
+    },
+    {
+      title: "License Management Dashboard",
+      description:
+        "Product access control and monitoring system for managing software licenses across the organization. Features real-time tracking, usage analytics, and automated renewal notifications.",
+      tech: ["React", "Next.js", "TypeScript", "REST API"],
+      liveUrl: "#",
+      githubUrl: "#",
+      image:
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop",
+      category: "DevSecOps",
+    },
+    {
+      title: "Ansible Infrastructure Monitoring",
+      description:
+        "Integrated Ansible with Next.js to provide real-time infrastructure monitoring and management capabilities. Enables automated deployments and configuration management through a web interface.",
+      tech: ["Next.js", "Ansible", "Python", "TypeScript", "WebSocket"],
+      liveUrl: "#",
+      githubUrl: "#",
+      image:
+        "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=400&fit=crop",
+      category: "DevSecOps",
+    },
+    {
+      title: "Issue Data Bank for AI LLM",
+      description:
+        "Built a comprehensive issue tracking and data collection system using Node.js and Kafka for AI LLM development. Aggregates and processes issue data for machine learning model training.",
+      tech: ["Node.js", "Kafka", "PostgreSQL", "TypeScript", "Docker"],
+      liveUrl: "#",
+      githubUrl: "#",
+      image:
+        "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=400&fit=crop",
+      category: "AI Integration",
+    },
+    {
+      title: "QA Automation Framework",
+      description:
+        "Implemented comprehensive QA automation using Playwright for security modules including DAST, SAST, and SCA testing. Automated testing pipelines ensure code quality and security compliance.",
+      tech: ["Playwright", "TypeScript", "Node.js", "CI/CD"],
+      liveUrl: "#",
+      githubUrl: "#",
+      image:
+        "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800&h=400&fit=crop",
+      category: "DevSecOps",
+    },
+    {
+      title: "Fusion Training Mobile App",
+      description:
+        "Mobile training application with comprehensive UI/UX design. Built using Flutter and Dart with a Laravel admin dashboard for content management and user tracking.",
+      tech: ["Flutter", "Dart", "PHP", "Laravel", "REST API"],
+      liveUrl: "#",
+      githubUrl: "#",
+      image:
+        "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=400&fit=crop",
+      category: "Mobile",
+    },
   ];
 
   const categories = [
@@ -106,93 +167,51 @@ const Projects = () => {
     "Full Stack",
     "Integration",
     "Backend",
+    "Mobile",
   ];
 
   const filteredProjects =
-    filter === "All" ? projects : projects.filter((p) => p.category === filter);
+    filter === "All"
+      ? projects
+      : projects.filter((p) => p.category === filter);
 
   return (
-    <>
-      <section id="projects" className="py-20 relative overflow-hidden">
-        <div
-          className="absolute left-10 top-20 text-[11rem] font-bold bg-gradient-to-br from-primary/25 to-primary/5 bg-clip-text text-transparent pointer-events-none"
-          style={parallax}
-        >
-          {"{}"}
-        </div>
-
-        {/* Tech Logos with Parallax */}
-        <div
-          className="absolute right-50 -top-50 pointer-events-none opacity-50"
-          style={parallaxFast}
-        >
-          <Image
-            src="/html.png"
-            alt="HTML"
-            width={80}
-            height={80}
-            className="object-contain"
-          />
-        </div>
-
-        <div
-          className="absolute right-20 -top-50  pointer-events-none opacity-40"
-          style={parallax}
-        >
-          <Image
-            src="/css.png"
-            alt="CSS"
-            width={80}
-            height={80}
-            className="object-contain"
-          />
-        </div>
-
-        <div
-          className="absolute left-40 -top-20 pointer-events-none opacity-40"
-          style={parallaxSlow}
-        >
-          <Image
-            src="/docker.png"
-            alt="Docker"
-            width={80}
-            height={80}
-            className="object-contain"
-          />
-        </div>
-
-        <div
-          className="absolute left-20 -top-50 pointer-events-none opacity-40"
-          style={parallaxSlow}
-        >
-          <Image
-            src="/js.png"
-            alt="JavaScript"
-            width={80}
-            height={80}
-            className="object-contain"
-          />
-        </div>
+    <main className="min-h-screen bg-background">
+      {/* Hero Section */}
+      <section className="pt-32 pb-16 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          {/* Section Header */}
+          {/* Back Button */}
+          <Link href="/#projects">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="mb-8 gap-2 hover:bg-primary/10"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Home
+            </Button>
+          </Link>
+
+          {/* Header */}
           <div className="text-center mb-16">
             <Badge variant="outline" className="mb-4 px-4 py-2">
               <Code2 className="w-4 h-4 mr-2" />
-              Portfolio
+              All Projects
             </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <h1 className="text-5xl md:text-6xl font-bold mb-4">
               <GradientText
                 from="from-blue-600"
                 via="via-purple-600"
                 to="to-pink-600"
                 animate={true}
-                animationType="slow"
+                animationType="shift"
               >
-                Featured Projects
+                My Work Portfolio
               </GradientText>
-            </h2>
+            </h1>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Real production projects solving enterprise challenges at scale
+              A comprehensive collection of production projects, from enterprise
+              DevSecOps solutions to AI integrations and full-stack applications
             </p>
           </div>
 
@@ -212,6 +231,13 @@ const Projects = () => {
             ))}
           </div>
 
+          {/* Projects Count */}
+          <div className="text-center mb-8">
+            <p className="text-sm text-muted-foreground">
+              Showing {filteredProjects.length} of {projects.length} projects
+            </p>
+          </div>
+
           {/* Projects Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProjects.map((project, index) => (
@@ -219,43 +245,42 @@ const Projects = () => {
                 key={project.title}
                 {...project}
                 className="animate-slide-up"
-                style={{ animationDelay: `${index * 100}ms` }}
+                style={{ animationDelay: `${index * 50}ms` }}
               />
             ))}
           </div>
 
-          {/* View All Button */}
-          <div className="text-center mt-16">
-            <Link href="/projects">
-              <Button
-                variant="outline"
-                size="lg"
-                className="gap-2 px-8 group hover:border-primary transition-all duration-300"
-              >
-                View More Projects
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </Link>
-          </div>
+          {/* Empty State */}
+          {filteredProjects.length === 0 && (
+            <div className="text-center py-16">
+              <Code2 className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+              <h3 className="text-xl font-semibold mb-2">No projects found</h3>
+              <p className="text-muted-foreground">
+                Try selecting a different category
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
-      {/* Section Divider */}
-      <div className="relative py-8 bg-gradient-to-b from-background via-muted/20 to-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center">
-            <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent flex-1"></div>
-            <div className="px-6">
-              <div className="w-8 h-8 rounded-full bg-muted/50 border border-border flex items-center justify-center">
-                <Code2 className="w-4 h-4 text-primary/50" />
-              </div>
-            </div>
-            <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent flex-1"></div>
-          </div>
+      {/* CTA Section */}
+      <section className="py-16 bg-muted/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold mb-4">
+            Interested in working together?
+          </h2>
+          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+            I&apos;m always open to discussing new projects, creative ideas, or
+            opportunities to be part of your vision.
+          </p>
+          <Link href="/#contact">
+            <Button size="lg" className="gap-2">
+              Get in Touch
+              <ArrowLeft className="w-5 h-5 rotate-180" />
+            </Button>
+          </Link>
         </div>
-      </div>
-    </>
+      </section>
+    </main>
   );
-};
-
-export default Projects;
+}

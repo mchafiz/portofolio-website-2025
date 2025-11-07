@@ -6,6 +6,8 @@ interface GradientTextProps {
   from?: string;
   to?: string;
   via?: string;
+  animate?: boolean;
+  animationType?: "wave" | "shift" | "rotate" | "slow" | "fast";
 }
 
 export function GradientText({
@@ -14,7 +16,11 @@ export function GradientText({
   from = "from-blue-600",
   to = "to-purple-600",
   via = "via-pink-500",
+  animate = false,
+  animationType = "wave",
 }: GradientTextProps) {
+  const animationClass = animate ? `animate-gradient-${animationType}` : "";
+
   return (
     <span
       className={cn(
@@ -22,6 +28,7 @@ export function GradientText({
         from,
         via,
         to,
+        animationClass,
         className
       )}
     >
