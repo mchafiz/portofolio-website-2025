@@ -173,7 +173,7 @@ const Hero = () => {
                   <div className="w-64 h-64 mx-auto lg:mx-0 rounded-2xl overflow-hidden glass p-1">
                     <div className="w-full h-full rounded-2xl overflow-hidden bg-muted/50 relative">
                       <Image
-                        src="/fish.png" // Replace with your photo path
+                        src="/self.JPG" // Replace with your photo path
                         alt="Muhammad Chaerul Hafiz"
                         width={256}
                         height={256}
@@ -186,7 +186,23 @@ const Hero = () => {
                           ).nextElementSibling?.classList.remove("hidden");
                         }}
                       />
+
                       {/* AI-themed gradient overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 via-transparent to-purple-500/20 opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+                      {/* Animated border gradient */}
+                      <div className="absolute inset-0 opacity-50 hover:opacity-100 transition-opacity duration-500">
+                        <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-20 blur-xl animate-pulse" />
+                      </div>
+
+                      {/* Tech grid overlay */}
+                      <div className="absolute inset-0 opacity-0 hover:opacity-30 transition-opacity duration-500 pointer-events-none">
+                        <div className="w-full h-full" style={{
+                          backgroundImage: `linear-gradient(rgba(var(--primary), 0.1) 1px, transparent 1px),
+                                          linear-gradient(90deg, rgba(var(--primary), 0.1) 1px, transparent 1px)`,
+                          backgroundSize: '20px 20px'
+                        }} />
+                      </div>
 
                       {/* Fallback placeholder */}
                       <div className="hidden w-full h-full">
