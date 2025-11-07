@@ -54,15 +54,22 @@ model Project {
 }
 
 model CareerEvent {
-  id          String   @id @default(cuid())
-  year        String
-  title       String
-  company     String?
-  description String
-  type        String   // education, work, achievement, certification
-  icon        String?  // icon name or emoji
-  published   Boolean  @default(false)
-  order       Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String   @id @default(cuid())
+  company       String
+  position      String
+  period        String
+  duration      String?
+  location      String?
+  type          String   // full-time, freelance, contract, internship, education
+  icon          String?  // icon name
+  color         String?  // gradient color
+  achievements  String   // JSON array
+  technologies  String   // JSON array
+  description   String
+  images        String?  // JSON array of {url, caption}
+  files         String?  // JSON array of {name, type, url}
+  published     Boolean  @default(false)
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }

@@ -5,12 +5,26 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 
 const careerSchema = z.object({
-  year: z.string().min(1),
-  title: z.string().min(1),
-  company: z.string().optional().nullable(),
-  description: z.string().min(1),
-  type: z.enum(["education", "work", "achievement", "certification"]),
+  company: z.string().min(1),
+  position: z.string().min(1),
+  period: z.string().min(1),
+  duration: z.string().optional().nullable(),
+  location: z.string().optional().nullable(),
+  type: z.enum(["full-time", "freelance", "contract", "internship", "education"]),
   icon: z.string().optional().nullable(),
+  color: z.string().optional().nullable(),
+  achievements: z.array(z.string()),
+  technologies: z.array(z.string()),
+  description: z.string().min(1),
+  images: z.array(z.object({
+    url: z.string(),
+    caption: z.string(),
+  })).optional().nullable(),
+  files: z.array(z.object({
+    name: z.string(),
+    type: z.string(),
+    url: z.string(),
+  })).optional().nullable(),
   published: z.boolean().optional(),
   order: z.number().optional(),
 });
@@ -26,7 +40,15 @@ export async function GET(request: NextRequest) {
       orderBy: { order: "asc" },
     });
 
-    return NextResponse.json(events);
+    return NextResponse.json(
+      events.map((event) => ({
+        ...event,
+        achievements: JSON.parse(event.achievements),
+        technologies: JSON.parse(event.technologies),
+        images: event.images ? JSON.parse(event.images) : null,
+        files: event.files ? JSON.parse(event.files) : null,
+      }))
+    );
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to fetch career events" },
@@ -48,10 +70,22 @@ export async function POST(request: NextRequest) {
     const validatedData = careerSchema.parse(body);
 
     const event = await prisma.careerEvent.create({
-      data: validatedData,
+      data: {
+        ...validatedData,
+        achievements: JSON.stringify(validatedData.achievements),
+        technologies: JSON.stringify(validatedData.technologies),
+        images: validatedData.images ? JSON.stringify(validatedData.images) : null,
+        files: validatedData.files ? JSON.stringify(validatedData.files) : null,
+      },
     });
 
-    return NextResponse.json(event);
+    return NextResponse.json({
+      ...event,
+      achievements: JSON.parse(event.achievements),
+      technologies: JSON.parse(event.technologies),
+      images: event.images ? JSON.parse(event.images) : null,
+      files: event.files ? JSON.parse(event.files) : null,
+    });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: error.issues }, { status: 400 });

@@ -5,12 +5,26 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 
 const careerSchema = z.object({
-  year: z.string().min(1).optional(),
-  title: z.string().min(1).optional(),
-  company: z.string().optional().nullable(),
-  description: z.string().min(1).optional(),
-  type: z.enum(["education", "work", "achievement", "certification"]).optional(),
+  company: z.string().min(1).optional(),
+  position: z.string().min(1).optional(),
+  period: z.string().min(1).optional(),
+  duration: z.string().optional().nullable(),
+  location: z.string().optional().nullable(),
+  type: z.enum(["full-time", "freelance", "contract", "internship", "education"]).optional(),
   icon: z.string().optional().nullable(),
+  color: z.string().optional().nullable(),
+  achievements: z.array(z.string()).optional(),
+  technologies: z.array(z.string()).optional(),
+  description: z.string().min(1).optional(),
+  images: z.array(z.object({
+    url: z.string(),
+    caption: z.string(),
+  })).optional().nullable(),
+  files: z.array(z.object({
+    name: z.string(),
+    type: z.string(),
+    url: z.string(),
+  })).optional().nullable(),
   published: z.boolean().optional(),
   order: z.number().optional(),
 });
@@ -33,7 +47,13 @@ export async function GET(
       );
     }
 
-    return NextResponse.json(event);
+    return NextResponse.json({
+      ...event,
+      achievements: JSON.parse(event.achievements as string),
+      technologies: JSON.parse(event.technologies as string),
+      images: event.images ? JSON.parse(event.images) : null,
+      files: event.files ? JSON.parse(event.files) : null,
+    });
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to fetch career event" },
@@ -58,12 +78,32 @@ export async function PUT(
     const body = await request.json();
     const validatedData = careerSchema.parse(body);
 
+    const updateData: Record<string, unknown> = { ...validatedData };
+    if (validatedData.achievements) {
+      updateData.achievements = JSON.stringify(validatedData.achievements);
+    }
+    if (validatedData.technologies) {
+      updateData.technologies = JSON.stringify(validatedData.technologies);
+    }
+    if (validatedData.images) {
+      updateData.images = JSON.stringify(validatedData.images);
+    }
+    if (validatedData.files) {
+      updateData.files = JSON.stringify(validatedData.files);
+    }
+
     const event = await prisma.careerEvent.update({
       where: { id },
-      data: validatedData,
+      data: updateData as never,
     });
 
-    return NextResponse.json(event);
+    return NextResponse.json({
+      ...event,
+      achievements: JSON.parse((event as never as { achievements: string }).achievements),
+      technologies: JSON.parse((event as never as { technologies: string }).technologies),
+      images: (event as never as { images: string | null }).images ? JSON.parse((event as never as { images: string }).images) : null,
+      files: (event as never as { files: string | null }).files ? JSON.parse((event as never as { files: string }).files) : null,
+    });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: error.issues }, { status: 400 });

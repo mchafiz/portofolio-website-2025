@@ -62,12 +62,48 @@ async function main() {
   // Create sample career event
   const careerEvent = await prisma.careerEvent.create({
     data: {
-      year: "2024",
-      title: "Started Learning Next.js",
-      company: "Self Learning",
-      description: "Began journey into modern web development",
-      type: "education",
-      icon: "🎓",
+      company: "Inovasi Informatika Indonesia, PT",
+      position: "Software Engineer | DevSecOps & QA Automation",
+      period: "Sep 2021 - Present",
+      duration: "4+ years",
+      location: "Jakarta Selatan, Indonesia",
+      type: "full-time",
+      icon: "Shield",
+      color: "from-blue-600 to-purple-600",
+      achievements: JSON.stringify([
+        "Led frontend development of i3gis DevSecOps Tools using React.js and Next.js",
+        "Implemented QA automation with Playwright for security modules (DAST, SAST, SCA)",
+        "Developed DevSecOps modules optimizing security workflows and processes",
+        "Built license management dashboard for product access control and monitoring",
+      ]),
+      technologies: JSON.stringify([
+        "React.js",
+        "Next.js",
+        "Node.js",
+        "Playwright",
+        "Nest.js",
+        "Kafka",
+        "Clickhouse",
+      ]),
+      description:
+        "As a Software Engineer at Inovasi Informatika Indonesia, I specialize in enterprise DevSecOps solutions. I led the full-stack development of the i3gis DevSecOps dashboard, implementing cutting-edge security automation and modern web technologies to serve real enterprise users.",
+      images: JSON.stringify([
+        {
+          url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
+          caption: "i3gis DevSecOps Dashboard",
+        },
+        {
+          url: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
+          caption: "QA Automation Testing",
+        },
+      ]),
+      files: JSON.stringify([
+        {
+          name: "Certificate of Employment.pdf",
+          type: "pdf",
+          url: "#",
+        },
+      ]),
       published: true,
       order: 1,
     },
