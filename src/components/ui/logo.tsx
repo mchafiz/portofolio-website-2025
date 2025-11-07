@@ -1,10 +1,12 @@
+import React from "react";
+
 interface LogoProps {
   name: string;
-  icon: JSX.Element;
+  icon: React.ReactNode;
   className?: string;
 }
 
-export function TechLogo({ name, icon, className = "" }: LogoProps) {
+export function TechLogo({ icon, className = "" }: LogoProps) {
   return (
     <div className={`flex items-center justify-center ${className}`}>
       <div className="relative group">

@@ -2,9 +2,9 @@ export function initSmoothScroll() {
   const duration = 500; // Reduced duration for faster response
 
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
+    anchor.addEventListener('click', (e) => {
       e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href')!);
+      const target = document.querySelector((e.currentTarget as HTMLAnchorElement).getAttribute('href')!);
 
       if (target) {
         const startPosition = window.pageYOffset;

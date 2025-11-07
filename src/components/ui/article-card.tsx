@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, ArrowRight, Eye, Heart } from "lucide-react";
+import { Calendar, ArrowRight, Eye, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -29,9 +29,7 @@ export function ArticleCard({
   description,
   image,
   date,
-  readTime,
   category,
-  author,
   views,
   likes,
   tags,
