@@ -173,7 +173,7 @@ const Hero = () => {
                   <div className="w-64 h-64 mx-auto lg:mx-0 rounded-2xl overflow-hidden glass p-1">
                     <div className="w-full h-full rounded-2xl overflow-hidden bg-muted/50 relative">
                       <Image
-                        src="/self.jpg" // Replace with your photo path
+                        src="/fish.png" // Replace with your photo path
                         alt="Muhammad Chaerul Hafiz"
                         width={256}
                         height={256}
