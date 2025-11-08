@@ -5,13 +5,13 @@ const prisma = new PrismaClient();
 
 async function main() {
   // Create admin user
-  const hashedPassword = await hash("admin123", 12);
+  const hashedPassword = await hash("Kuburan@12345", 12);
 
   const admin = await prisma.user.upsert({
-    where: { email: "admin@example.com" },
+    where: { email: "mchafiz@admin.com" },
     update: {},
     create: {
-      email: "admin@example.com",
+      email: "mchafiz@admin.com",
       password: hashedPassword,
       name: "Admin",
     },
@@ -27,8 +27,10 @@ async function main() {
       slug: "getting-started-with-nextjs",
       title: "Getting Started with Next.js",
       description: "Learn how to build modern web applications with Next.js",
-      content: "# Getting Started with Next.js\n\nNext.js is a powerful React framework...",
-      image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800",
+      content:
+        "# Getting Started with Next.js\n\nNext.js is a powerful React framework...",
+      image:
+        "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800",
       category: "Web Development",
       tags: JSON.stringify(["nextjs", "react", "javascript"]),
       featured: true,
@@ -46,7 +48,8 @@ async function main() {
       slug: "portfolio-website",
       title: "Portfolio Website",
       description: "A modern portfolio website built with Next.js",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800",
+      image:
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800",
       category: "Web Development",
       tags: JSON.stringify(["nextjs", "typescript", "tailwind"]),
       demoUrl: "https://example.com",
