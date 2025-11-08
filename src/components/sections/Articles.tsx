@@ -12,172 +12,61 @@ import {
   TrendingUp,
   Calendar,
   Eye,
+  Loader2,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+
+interface Article {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  content: string;
+  image: string;
+  category: string;
+  tags: string[];
+  views: number;
+  likes: number;
+  featured: boolean;
+  published: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
 
 const Articles = () => {
   const [filter, setFilter] = useState("All");
   const [sortBy, setSortBy] = useState("recent");
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const parallax = useParallax(0.2);
 
-  const articles = [
-    {
-      title:
-        "Building Production-Ready RAG Systems with LangChain and Vector Databases",
-      description:
-        "Learn how to implement Retrieval-Augmented Generation (RAG) systems from scratch. This comprehensive guide covers everything from vector embeddings to production deployment strategies.",
-      image:
-        "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=400&fit=crop",
-      date: "Dec 15, 2024",
-      readTime: "15 min read",
-      category: "AI/ML",
-      author: "Muhammad Chaerul Hafiz",
-      views: 5420,
-      likes: 234,
-      tags: ["RAG", "LangChain", "VectorDB", "OpenAI", "Production"],
-      slug: "building-rag-systems",
-      featured: true,
-    },
-    {
-      title:
-        "Neural Network Optimization: Advanced Techniques for Better Performance",
-      description:
-        "Deep dive into neural network optimization techniques including quantization, pruning, knowledge distillation, and mixed precision training.",
-      image:
-        "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&h=400&fit=crop",
-      date: "Dec 10, 2024",
-      readTime: "12 min read",
-      category: "AI/ML",
-      author: "Muhammad Chaerul Hafiz",
-      views: 3890,
-      likes: 189,
-      tags: ["Neural Networks", "Optimization", "Deep Learning", "TensorFlow"],
-      slug: "neural-network-optimization",
-      featured: true,
-    },
-    {
-      title: "Next.js 15 App Router: Complete Guide to Server Components",
-      description:
-        "Master the new App Router architecture in Next.js 15. Learn about server components, streaming, and how to build blazing-fast web applications.",
-      image:
-        "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=400&fit=crop",
-      date: "Dec 5, 2024",
-      readTime: "10 min read",
-      category: "Web Development",
-      author: "Muhammad Chaerul Hafiz",
-      views: 6750,
-      likes: 312,
-      tags: ["Next.js", "React", "Server Components", "TypeScript"],
-      slug: "nextjs-15-app-router",
-    },
-    {
-      title: "Fine-Tuning LLMs for Custom Applications: A Practical Guide",
-      description:
-        "Step-by-step tutorial on fine-tuning large language models for specific domains. Covers data preparation, training techniques, and evaluation metrics.",
-      image:
-        "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=400&fit=crop",
-      date: "Nov 28, 2024",
-      readTime: "18 min read",
-      category: "AI/ML",
-      author: "Muhammad Chaerul Hafiz",
-      views: 4210,
-      likes: 267,
-      tags: ["LLM", "Fine-tuning", "Hugging Face", "Transformers"],
-      slug: "fine-tuning-llms",
-    },
-    {
-      title: "Real-time WebSocket Applications with Next.js and Socket.io",
-      description:
-        "Build scalable real-time applications using WebSockets. Learn about connection management, scaling strategies, and best practices.",
-      image:
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop",
-      date: "Nov 20, 2024",
-      readTime: "8 min read",
-      category: "Web Development",
-      author: "Muhammad Chaerul Hafiz",
-      views: 3200,
-      likes: 156,
-      tags: ["WebSocket", "Socket.io", "Next.js", "Real-time"],
-      slug: "realtime-websockets",
-    },
-    {
-      title: "Understanding Transformer Architecture: From Theory to Code",
-      description:
-        "Comprehensive explanation of transformer architecture. Implement attention mechanisms from scratch and understand how they power modern AI models.",
-      image:
-        "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=400&fit=crop",
-      date: "Nov 15, 2024",
-      readTime: "20 min read",
-      category: "AI/ML",
-      author: "Muhammad Chaerul Hafiz",
-      views: 8900,
-      likes: 456,
-      tags: ["Transformers", "Attention", "NLP", "Deep Learning"],
-      slug: "transformer-architecture",
-      featured: true,
-    },
-    {
-      title:
-        "Deploying ML Models to Production: Docker, Kubernetes, and Beyond",
-      description:
-        "Complete guide to deploying machine learning models in production. Covers containerization, orchestration, monitoring, and A/B testing.",
-      image:
-        "https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?w=800&h=400&fit=crop",
-      date: "Nov 10, 2024",
-      readTime: "14 min read",
-      category: "DevOps",
-      author: "Muhammad Chaerul Hafiz",
-      views: 5100,
-      likes: 298,
-      tags: ["MLOps", "Docker", "Kubernetes", "Deployment"],
-      slug: "deploying-ml-models",
-    },
-    {
-      title: "TypeScript Best Practices for Large-Scale Applications",
-      description:
-        "Learn advanced TypeScript patterns and practices for building maintainable, type-safe applications at scale.",
-      image:
-        "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800&h=400&fit=crop",
-      date: "Nov 5, 2024",
-      readTime: "11 min read",
-      category: "Web Development",
-      author: "Muhammad Chaerul Hafiz",
-      views: 4300,
-      likes: 201,
-      tags: ["TypeScript", "Best Practices", "Architecture", "TypeScript"],
-      slug: "typescript-best-practices",
-    },
-    {
-      title:
-        "Computer Vision with PyTorch: Building Image Classification Models",
-      description:
-        "Hands-on tutorial for building computer vision applications. Learn about CNNs, transfer learning, and image preprocessing.",
-      image:
-        "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800&h=400&fit=crop",
-      date: "Oct 28, 2024",
-      readTime: "16 min read",
-      category: "AI/ML",
-      author: "Muhammad Chaerul Hafiz",
-      views: 6200,
-      likes: 334,
-      tags: ["Computer Vision", "PyTorch", "CNN", "Image Classification"],
-      slug: "computer-vision-pytorch",
-    },
-  ];
+  useEffect(() => {
+    fetchArticles();
+  }, []);
 
+  const fetchArticles = async () => {
+    try {
+      const response = await fetch("/api/articles?published=true");
+      if (response.ok) {
+        const data = await response.json();
+        setArticles(data);
+      }
+    } catch (error) {
+      console.error("Error fetching articles:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Get unique categories from articles
   const categories = [
     "All",
-    "AI/ML",
-    "Web Development",
-    "DevOps",
-    "Tutorial",
-    "Research",
+    ...Array.from(new Set(articles.map((a) => a.category))),
   ];
 
-  const filteredArticles = articles.filter(
-    (article) => filter === "All" || article.category === filter
-  );
+  const filteredArticles =
+    filter === "All" ? articles : articles.filter((a) => a.category === filter);
 
   const sortedArticles = [...filteredArticles].sort((a, b) => {
     if (sortBy === "recent") return 0;
@@ -191,7 +80,7 @@ const Articles = () => {
       <section id="articles" className="py-20 relative overflow-hidden">
         {/* Background Elements */}
         <div
-          className="absolute right-10 top-20 text-[10rem] font-bold bg-gradient-to-bl from-primary/5 to-primary/1 bg-clip-text text-transparent pointer-events-none animate-float"
+          className="absolute right-10 top-20 text-[5rem] sm:text-[7rem] md:text-[10rem] font-bold bg-gradient-to-bl from-primary/5 to-primary/1 bg-clip-text text-transparent pointer-events-none animate-float"
           style={parallax}
         >
           {"</>"}
@@ -204,7 +93,7 @@ const Articles = () => {
               <FileText className="w-4 h-4 mr-2" />
               Articles & Insights
             </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
               <GradientText
                 from="from-blue-600"
                 via="via-purple-600"
@@ -224,7 +113,7 @@ const Articles = () => {
           {/* Filters and Controls */}
           <div className="flex flex-col lg:flex-row justify-between items-center gap-4 mb-12">
             {/* Category Filters */}
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2 sm:gap-3">
               {categories.map((category) => (
                 <Button
                   key={category}
@@ -264,15 +153,42 @@ const Articles = () => {
           </div>
 
           {/* Articles Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {sortedArticles.map((article, index) => (
-              <ArticleCard
-                key={article.slug}
-                {...article}
-                className="animate-slide-up"
-                style={{ animationDelay: `${index * 100}ms` }}
-              />
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-16">
+            {isLoading ? (
+              <div className="col-span-full flex justify-center items-center py-20">
+                <Loader2 className="w-8 h-8 animate-spin text-primary" />
+              </div>
+            ) : sortedArticles.length === 0 ? (
+              <div className="col-span-full flex flex-col items-center justify-center py-20">
+                <FileText className="w-16 h-16 text-muted-foreground mb-4" />
+                <h3 className="text-xl font-semibold mb-2">No Articles Found</h3>
+                <p className="text-muted-foreground">Check back later for new content</p>
+              </div>
+            ) : (
+              sortedArticles.map((article, index) => (
+                <ArticleCard
+                  key={article.slug}
+                  title={article.title}
+                  description={article.description}
+                  image={article.image}
+                  date={new Date(article.createdAt).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
+                  })}
+                  readTime="10 min read"
+                  category={article.category}
+                  author="Muhammad Chaerul Hafiz"
+                  views={article.views}
+                  likes={article.likes}
+                  tags={article.tags}
+                  slug={article.slug}
+                  featured={article.featured}
+                  className="animate-slide-up"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                />
+              ))
+            )}
           </div>
 
           {/* View All Button */}
@@ -290,16 +206,16 @@ const Articles = () => {
           </div>
 
           {/* Newsletter Section */}
-          <div className="mt-20 p-8 glass rounded-2xl">
+          <div className="mt-20 p-4 sm:p-6 md:p-8 glass rounded-2xl">
             <div className="max-w-2xl mx-auto text-center">
-              <h3 className="text-2xl font-bold mb-4">
+              <h3 className="text-xl sm:text-2xl font-bold mb-4">
                 Subscribe to My Newsletter
               </h3>
               <p className="text-muted-foreground mb-6">
                 Get weekly updates on the latest in AI, ML, and web development.
                 No spam, unsubscribe anytime.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 max-w-md mx-auto">
                 <input
                   type="email"
                   placeholder="Enter your email"

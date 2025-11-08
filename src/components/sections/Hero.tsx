@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -15,10 +16,12 @@ import { useParallax } from "@/hooks/use-parallax";
 import { TypingAnimation } from "@/components/ui/typing-animation";
 import { GradientText } from "@/components/ui/gradient-text";
 import { Tooltip } from "@/components/ui/tooltip";
+import { ContactFormModal } from "@/components/contact-form-modal";
 import Image from "next/image";
 
 const Hero = () => {
   const parallax = useParallax(0.5);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   const roles = [
     "Software Engineer",
@@ -26,6 +29,41 @@ const Hero = () => {
     "DevSecOps Tools Developer",
     "Problem Solver",
   ];
+
+  const handleDownloadCV = async () => {
+    try {
+      const response = await fetch("/api/cv/download");
+
+      if (!response.ok) {
+        throw new Error("Failed to download CV");
+      }
+
+      // Get the filename from Content-Disposition header or use a default
+      const contentDisposition = response.headers.get("Content-Disposition");
+      const filenameMatch = contentDisposition?.match(/filename="(.+)"/);
+      const filename = filenameMatch ? filenameMatch[1] : "CV.pdf";
+
+      // Create a blob from the response
+      const blob = await response.blob();
+
+      // Create a temporary URL for the blob
+      const url = window.URL.createObjectURL(blob);
+
+      // Create a temporary anchor element and trigger download
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+
+      // Cleanup
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error("Error downloading CV:", error);
+      alert("Failed to download CV. Please try again later.");
+    }
+  };
 
   return (
     <>
@@ -38,17 +76,17 @@ const Hero = () => {
           className="absolute inset-0 -z-10 opacity-20 dark:opacity-30 pointer-events-none"
           style={parallax}
         >
-          <div className="absolute top-20 left-20 text-[12rem] font-bold bg-gradient-to-br from-blue-500/5 to-purple-500/2 bg-clip-text text-transparent animate-float">
+          <div className="absolute top-20 left-20 text-[6rem] sm:text-[8rem] md:text-[10rem] lg:text-[12rem] font-bold bg-gradient-to-br from-blue-500/5 to-purple-500/2 bg-clip-text text-transparent animate-float">
             &lt;/&gt;
           </div>
           <div
-            className="absolute bottom-20 right-20 text-[12rem] font-bold bg-gradient-to-tl from-purple-500/5 to-pink-500/2 bg-clip-text text-transparent animate-float"
+            className="absolute bottom-20 right-20 text-[6rem] sm:text-[8rem] md:text-[10rem] lg:text-[12rem] font-bold bg-gradient-to-tl from-purple-500/5 to-pink-500/2 bg-clip-text text-transparent animate-float"
             style={{ animationDelay: "2s" }}
           >
             {}
           </div>
           <div
-            className="absolute top-1/2 left-1/3 text-[10rem] font-bold bg-gradient-to-r from-blue-500/5 to-purple-500/2 bg-clip-text text-transparent animate-float"
+            className="absolute top-1/2 left-1/3 text-[5rem] sm:text-[7rem] md:text-[8rem] lg:text-[10rem] font-bold bg-gradient-to-r from-blue-500/5 to-purple-500/2 bg-clip-text text-transparent animate-float"
             style={{ animationDelay: "4s" }}
           >
             []
@@ -57,7 +95,7 @@ const Hero = () => {
 
         {/* Floating Terminal Window */}
         <div
-          className="absolute top-25 right-20 glass rounded-lg p-4 max-w-xs animate-float shadow-xl"
+          className="hidden lg:block absolute top-25 right-20 glass rounded-lg p-4 max-w-xs animate-float shadow-xl"
           style={{ animationDelay: "1s" }}
         >
           <div className="flex items-center gap-2 mb-2">
@@ -88,7 +126,7 @@ const Hero = () => {
               >
                 <Badge
                   variant="outline"
-                  className="mb-6 px-4 py-2 text-sm font-medium border-primary/20 bg-primary/5 text-primary animate-slide-up cursor-help"
+                  className="mb-6 px-3 py-2 text-xs sm:text-sm font-medium border-primary/20 bg-primary/5 text-primary animate-slide-up cursor-help"
                 >
                   <Lightbulb className="w-4 h-4 mr-2" />
                   <span>Learning Never Stops</span>
@@ -97,7 +135,7 @@ const Hero = () => {
 
               {/* Main Title */}
               <h1
-                className="text-5xl md:text-6xl font-bold mb-4 animate-slide-up"
+                className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 animate-slide-up"
                 style={{ animationDelay: "0.1s" }}
               >
                 <span className="text-white">Muhammad</span>
@@ -145,7 +183,8 @@ const Hero = () => {
               >
                 <Button
                   size="lg"
-                  className="gap-2 px-8 py-3 text-base font-medium bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-[size:200%_200%] animate-gradient hover:from-blue-700 hover:to-purple-700 transition-all duration-300 text-white glow"
+                  onClick={handleDownloadCV}
+                  className="gap-2 px-8 py-3 text-base font-medium bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-[size:200%_200%] animate-gradient hover:from-blue-700 hover:to-purple-700 transition-all duration-300 text-white glow cursor-pointer"
                 >
                   <Download className="w-5 h-5 text-white" />
                   Download CV
@@ -154,7 +193,8 @@ const Hero = () => {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="gap-2 px-8 py-3 text-base font-medium border-primary/20 hover:border-primary hover:bg-primary/5 transition-all duration-300"
+                  onClick={() => setIsContactModalOpen(true)}
+                  className="gap-2 cursor-pointer px-8 py-3 text-base font-medium border-primary/20 hover:border-primary hover:bg-primary/5 transition-all duration-300"
                 >
                   <Mail className="w-5 h-5" />
                   Get in Touch
@@ -166,18 +206,18 @@ const Hero = () => {
             <div className="lg:col-span-5 lg:pl-8">
               {/* Profile Photo */}
               <div
-                className="mb-8 animate-slide-up"
+                className="hidden lg:block mb-8 animate-slide-up"
                 style={{ animationDelay: "0.4s" }}
               >
-                <div className="relative inline-block">
-                  <div className="w-64 h-64 mx-auto lg:mx-0 rounded-2xl overflow-hidden glass p-1">
+                <div className="relative inline-block bg-transparent">
+                  <div className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 mx-auto lg:mx-0 rounded-2xl overflow-hidden glass p-1">
                     <div className="w-full h-full rounded-2xl overflow-hidden bg-muted/50 relative">
                       <Image
-                        src="/self.JPG" // Replace with your photo path
+                        src="/fish.png" // Replace with your photo path
                         alt="Muhammad Chaerul Hafiz"
                         width={256}
                         height={256}
-                        className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                        className="w-full h-full object-cover hover:scale-110 bg-transparent transition-transform duration-500"
                         onError={(e) => {
                           // Fallback placeholder if image not found
                           (e.target as HTMLImageElement).style.display = "none";
@@ -197,11 +237,14 @@ const Hero = () => {
 
                       {/* Tech grid overlay */}
                       <div className="absolute inset-0 opacity-0 hover:opacity-30 transition-opacity duration-500 pointer-events-none">
-                        <div className="w-full h-full" style={{
-                          backgroundImage: `linear-gradient(rgba(var(--primary), 0.1) 1px, transparent 1px),
+                        <div
+                          className="w-full h-full"
+                          style={{
+                            backgroundImage: `linear-gradient(rgba(var(--primary), 0.1) 1px, transparent 1px),
                                           linear-gradient(90deg, rgba(var(--primary), 0.1) 1px, transparent 1px)`,
-                          backgroundSize: '20px 20px'
-                        }} />
+                            backgroundSize: "20px 20px",
+                          }}
+                        />
                       </div>
 
                       {/* Fallback placeholder */}
@@ -267,15 +310,14 @@ const Hero = () => {
                     "React",
                     "Next.js",
                     "TypeScript",
+                    "Javascript",
                     "Node.js",
-                    "WebSocket",
                     "Anthropic",
                     "OpenAI",
                     "DeepSeek",
-                    "Jira API",
-                    "ServiceNow",
-                    "PDF Generation",
-                    "Microservices",
+                    "Jira",
+                    "Puppeteer",
+                    "Docker",
                   ].map((tech) => (
                     <Badge
                       key={tech}
@@ -313,6 +355,12 @@ const Hero = () => {
           </div>
         </div>
       </div>
+
+      {/* Contact Form Modal */}
+      <ContactFormModal
+        open={isContactModalOpen}
+        onOpenChange={setIsContactModalOpen}
+      />
     </>
   );
 };

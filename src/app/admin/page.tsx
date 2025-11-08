@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, Briefcase, Calendar, LogOut } from "lucide-react";
+import { FileText, Briefcase, Calendar, LogOut, FileDown, Mail } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 
@@ -53,7 +53,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Dashboard Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Articles */}
           <Card className="glass hover:shadow-xl transition-all duration-300 hover:scale-105">
             <CardHeader>
@@ -104,6 +104,42 @@ export default function AdminDashboard() {
               </p>
               <Link href="/admin/career">
                 <Button className="w-full">Manage Career</Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* CV Management */}
+          <Card className="glass hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <CardHeader>
+              <div className="w-12 h-12 bg-orange-500/10 rounded-lg flex items-center justify-center mb-4">
+                <FileDown className="w-6 h-6 text-orange-500" />
+              </div>
+              <CardTitle>CV / Resume</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground mb-4">
+                Upload and manage your CV/Resume
+              </p>
+              <Link href="/admin/cv">
+                <Button className="w-full">Manage CV</Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Contact Messages */}
+          <Card className="glass hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <CardHeader>
+              <div className="w-12 h-12 bg-pink-500/10 rounded-lg flex items-center justify-center mb-4">
+                <Mail className="w-6 h-6 text-pink-500" />
+              </div>
+              <CardTitle>Contact Messages</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground mb-4">
+                View and manage contact form submissions
+              </p>
+              <Link href="/admin/contact">
+                <Button className="w-full">View Messages</Button>
               </Link>
             </CardContent>
           </Card>
