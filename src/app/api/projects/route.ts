@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     });
 
     return NextResponse.json(
-      projects.map((project) => ({
+      projects.map((project: { tags: string; [key: string]: unknown }) => ({
         ...project,
         tags: JSON.parse(project.tags),
       }))

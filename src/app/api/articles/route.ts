@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
     });
 
     return NextResponse.json(
-      articles.map((article) => ({
+      articles.map((article: { tags: string; [key: string]: unknown }) => ({
         ...article,
         tags: JSON.parse(article.tags),
       }))
