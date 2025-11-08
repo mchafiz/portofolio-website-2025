@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { readFile } from "fs/promises";
 import { join } from "path";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Get the active CV from database
     const cv = await prisma.cV.findFirst({
@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
       const fileBuffer = await readFile(filepath);
 
       // Return the file as a download
-      return new NextResponse(fileBuffer, {
+      return new NextResponse(Buffer.from(fileBuffer), {
         headers: {
           "Content-Type": "application/pdf",
           "Content-Disposition": `attachment; filename="${cv.fileName}"`,

@@ -102,7 +102,7 @@ export function ContactFormModal({
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
             Have a question or want to work together? Send me a message and
-            I'll get back to you as soon as possible.
+            I&apos;ll get back to you as soon as possible.
           </DialogDescription>
         </DialogHeader>
 
