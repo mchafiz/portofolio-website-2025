@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
     });
 
     return NextResponse.json(
-      events.map((event) => ({
+      events.map((event: { achievements: string; technologies: string; images: string | null; files: string | null; [key: string]: unknown }) => ({
         ...event,
         achievements: JSON.parse(event.achievements),
         technologies: JSON.parse(event.technologies),
@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
         files: event.files ? JSON.parse(event.files) : null,
       }))
     );
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to fetch career events" },
       { status: 500 }

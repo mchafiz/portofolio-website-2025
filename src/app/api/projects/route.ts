@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
         tags: JSON.parse(project.tags),
       }))
     );
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to fetch projects" },
       { status: 500 }

@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
         tags: JSON.parse(article.tags),
       }))
     );
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to fetch articles" },
       { status: 500 }

@@ -34,7 +34,7 @@ export async function GET(
       ...article,
       tags: JSON.parse(article.tags),
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to fetch article" },
       { status: 500 }
@@ -101,7 +101,7 @@ export async function DELETE(
     });
 
     return NextResponse.json({ message: "Article deleted successfully" });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to delete article" },
       { status: 500 }

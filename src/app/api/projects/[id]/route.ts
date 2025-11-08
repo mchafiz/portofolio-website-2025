@@ -36,7 +36,7 @@ export async function GET(
       ...project,
       tags: JSON.parse(project.tags),
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to fetch project" },
       { status: 500 }
@@ -103,7 +103,7 @@ export async function DELETE(
     });
 
     return NextResponse.json({ message: "Project deleted successfully" });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to delete project" },
       { status: 500 }

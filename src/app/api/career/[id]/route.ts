@@ -54,7 +54,7 @@ export async function GET(
       images: event.images ? JSON.parse(event.images) : null,
       files: event.files ? JSON.parse(event.files) : null,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to fetch career event" },
       { status: 500 }
@@ -133,7 +133,7 @@ export async function DELETE(
     });
 
     return NextResponse.json({ message: "Career event deleted successfully" });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to delete career event" },
       { status: 500 }
