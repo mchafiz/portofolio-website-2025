@@ -49,119 +49,14 @@ const Projects = () => {
     }
   };
 
-  // Fallback projects data (matches API structure)
-  const fallbackProjects: Project[] = [
-    {
-      id: "fallback-1",
-      title: "i3gis DevSecOps Platform",
-      description:
-        "Enterprise DevSecOps dashboard consolidating multiple security and development tools into a unified platform. Led full-stack development using React and Next.js for both frontend and backend, delivering production solutions serving enterprise users.",
-      tags: [
-        "React",
-        "Next.js",
-        "TypeScript",
-        "Node.js",
-        "Docker",
-        "Microservices",
-      ],
-      demoUrl: "#",
-      githubUrl: "#",
-      image:
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop",
-      category: "DevSecOps",
-      featured: true,
-      published: true,
-    },
-    {
-      id: "fallback-2",
-      title: "Multi-AI Provider Integration",
-      description:
-        "Built an intelligent chatbot system integrating three major AI providers: Anthropic Claude, OpenAI, and DeepSeek. Developed a dedicated AI service microservice to seamlessly connect multiple LLM providers to the i3gis dashboard with a unified interface.",
-      tags: [
-        "Next.js",
-        "Anthropic",
-        "OpenAI",
-        "DeepSeek",
-        "WebSocket",
-        "TypeScript",
-      ],
-      demoUrl: "#",
-      githubUrl: "#",
-      image:
-        "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=400&fit=crop",
-      category: "AI Integration",
-      featured: false,
-      published: true,
-    },
-    {
-      id: "fallback-3",
-      title: "Real-time WebSocket Chatbot",
-      description:
-        "Developed a frontend chatbot interface that consumes WebSocket connections from the backend, enabling real-time AI conversations. Implemented robust message streaming, connection handling, and error recovery for production environments.",
-      tags: ["React", "WebSocket", "TypeScript", "Next.js"],
-      demoUrl: "#",
-      githubUrl: "#",
-      image:
-        "https://images.unsplash.com/photo-1611746872915-64382b5c76da?w=800&h=400&fit=crop",
-      category: "Full Stack",
-      featured: false,
-      published: true,
-    },
-    {
-      id: "fallback-4",
-      title: "Ticketing System Integration",
-      description:
-        "Created a microservice integrating Jira and ServiceNow APIs into the i3gis DevSecOps platform. Enables seamless ticket management and workflow automation across enterprise tools, streamlining issue tracking and resolution processes.",
-      tags: ["Node.js", "Jira API", "ServiceNow", "REST API", "TypeScript"],
-      demoUrl: "#",
-      githubUrl: "#",
-      image:
-        "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=400&fit=crop",
-      category: "Integration",
-      featured: false,
-      published: true,
-    },
-    {
-      id: "fallback-5",
-      title: "Version Monitoring System",
-      description:
-        "Built a monitoring service to track and compare application versions between development and production servers. Automated version checking ensures deployment consistency across i3gis environments, preventing version mismatches.",
-      tags: ["Node.js", "TypeScript", "REST API", "Cron Jobs"],
-      demoUrl: "#",
-      githubUrl: "#",
-      image:
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop",
-      category: "DevSecOps",
-      featured: false,
-      published: true,
-    },
-    {
-      id: "fallback-6",
-      title: "PDF Report Generator Service",
-      description:
-        "Developed an automated report generation service that converts HTML templates into professional PDF documents for i3gis security scan results. Handles dynamic data rendering, custom formatting, and template management.",
-      tags: ["Node.js", "Puppeteer", "HTML/CSS", "TypeScript"],
-      demoUrl: "#",
-      githubUrl: "#",
-      image:
-        "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&h=400&fit=crop",
-      category: "Backend",
-      featured: false,
-      published: true,
-    },
-  ];
-
   // Get unique categories from projects
   const categories = [
     "All",
-    ...Array.from(new Set((projects.length > 0 ? projects : fallbackProjects).map((p) => p.category))),
+    ...Array.from(new Set(projects.map((p) => p.category))),
   ];
 
-  // Use fetched projects or fallback
-  const displayProjects = projects.length > 0 ? projects : fallbackProjects;
-
   const filteredProjects =
-    filter === "All" ? displayProjects : displayProjects.filter((p) => p.category === filter);
+    filter === "All" ? projects : projects.filter((p) => p.category === filter);
 
   return (
     <>
@@ -269,6 +164,12 @@ const Projects = () => {
             {isLoading ? (
               <div className="col-span-full flex justify-center items-center py-20">
                 <Loader2 className="w-8 h-8 animate-spin text-primary" />
+              </div>
+            ) : filteredProjects.length === 0 ? (
+              <div className="col-span-full flex flex-col items-center justify-center py-20">
+                <Code2 className="w-16 h-16 text-muted-foreground mb-4" />
+                <h3 className="text-xl font-semibold mb-2">No Projects Found</h3>
+                <p className="text-muted-foreground">Check back later for new projects</p>
               </div>
             ) : (
               filteredProjects.map((project, index) => (
